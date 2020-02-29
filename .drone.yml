@@ -1,0 +1,44 @@
+kind: pipeline
+type: docker
+name: default
+
+clone:
+  skip_verify: true
+
+steps:
+- name: build
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run
+  environment:
+    GITEA_HOST:
+      from_secret: gitea-host
+  commands:
+  - echo $GITEA_HOST
+  - sleep 5
+  #- cd docker  
+  - docker pull hello-world:latest
+  - docker tag hello-world:latest $GITEA_HOST:5000/hello-world:latest
+  - docker push $GITEA_HOST:5000/hello-world:latest
+  #- sh docker.build.all.sh
+  #- docker tag msd:latest 192.168.1.72:5000/msd:latest
+  #- docker push 192.168.1.72:5000/msd:latest
+
+
+services:
+- name: docker
+  image: docker:dind
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run  
+  - name: ca
+    path: /etc/docker/certs.d
+ 
+volumes:
+- name: dockersock
+  temp: {}
+- name: ca
+  host:
+    path: /home/giles/Documents/gitea/.ca
