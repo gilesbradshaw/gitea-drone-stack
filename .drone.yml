@@ -15,8 +15,7 @@ steps:
     GITEA_HOST:
       from_secret: gitea-host
   commands:
-  - echo $GITEA_HOST
-  - sleep 5
+  - sleep 15
   #- cd docker  
   - docker pull hello-world:latest
   - docker tag hello-world:latest $GITEA_HOST:5000/hello-world:latest

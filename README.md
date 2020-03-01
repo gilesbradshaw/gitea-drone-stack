@@ -30,6 +30,8 @@ docker stack deploy -c docker-compose.yml gitea
 ```
 ## create gitea app with client id and secret
 
+## add gite-host secret to repository
+
 ## deploy once installed
 
 ```
